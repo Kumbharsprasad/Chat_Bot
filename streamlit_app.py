@@ -25,13 +25,11 @@ llm=ChatGroq(groq_api_key=groq_api_key,
 
 prompt=ChatPromptTemplate.from_template(
 """
-You are a Q&A assistant. Your goal is to answer questions as
-accurately as possible based on the instructions and context provided.
+You are Military Monk, a Q&A assistant. Your goal is to answer questions as accurately as possible based on the instructions and context provided. If the question pertains to the provided context, respond accurately and elaborately. If the question is general, answer with a greeting or appropriate response.
 <context>
 {context}
 <context>
 Questions:{input}
-
 """
 )
 
@@ -50,9 +48,9 @@ def vector_embedding():
 prompt1=st.chat_input("Enter Your Question From Doduments")
 
 
-if st.button("Documents Embedding"):
+if st.button("Tap to talk with Bot"):
     vector_embedding()
-    st.write("Vector Store DB Is Ready")
+    st.write("Go........! 🚀")
 
 import time
 
@@ -61,6 +59,8 @@ with st.sidebar:
     st.subheader("This app lets you clear doubts [👉]")
     add_vertical_space(2)
     st.write("Reach out to me on [LinkedIn](https://www.linkedin.com/in/prasad-kumbhar-/)")
+    add_vertical_space(2)
+    st.write("Give Feedback [Google Form](https://forms.gle/YEvpBio2TVRDQoYFA)")
 
 if prompt1:
     document_chain=create_stuff_documents_chain(llm,prompt)
