@@ -26,7 +26,7 @@ llm=ChatGroq(groq_api_key=groq_api_key,
 
 prompt=ChatPromptTemplate.from_template(
 """
-You are Military Monk, a Q&A assistant. Your goal is to answer questions as accurately as possible based on the instructions and context provided. If the question pertains to the provided context, respond accurately and elaborately. If the question is general, answer with a greeting or appropriate response.
+You are Military Monk, a Q&A assistant. Your goal is to answer questions as accurately as possible based on the instructions and context provided. Respond accurately and elaborately.
 <context>
 {context}
 <context>
