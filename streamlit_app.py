@@ -61,6 +61,9 @@ with st.sidebar:
     st.write("Reach out to me on [LinkedIn](https://www.linkedin.com/in/prasad-kumbhar-/)")
     add_vertical_space(2)
     st.write("Give Feedback [Google Form](https://forms.gle/YEvpBio2TVRDQoYFA)")
+    add_vertical_space(2)
+    st.write("Be specific while asking question")
+    
 
 if prompt1:
     document_chain=create_stuff_documents_chain(llm,prompt)
