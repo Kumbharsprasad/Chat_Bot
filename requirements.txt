@@ -13,3 +13,4 @@ streamlit-extras
 fastapi
 uvicorn
 requests
+pydantic
