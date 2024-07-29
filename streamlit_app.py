@@ -1,5 +1,6 @@
 import streamlit as st
 import os
+import requests
 from langchain_groq import ChatGroq
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chains.combine_documents import create_stuff_documents_chain
@@ -66,6 +67,18 @@ with st.sidebar:
     add_vertical_space(2)
     st.write("Tip: Be specific while asking question")
 
+def save_to_fastapi(user_query, bot_response):
+    url = 'http://127.0.0.1:8000/save/'
+    data = {
+        'user_query': user_query,
+        'bot_response': bot_response
+    }
+    response = requests.post(url, json=data)
+    if response.status_code == 200:
+        print("Query and response saved successfully")
+    else:
+        print("Failed to save query and response")
+                
 if prompt1:
     document_chain=create_stuff_documents_chain(llm,prompt)
     retriever=st.session_state.vectors.as_retriever()
@@ -74,6 +87,7 @@ if prompt1:
     response=retrieval_chain.invoke({'input':prompt1})
     print("Response time :",time.process_time()-start)
     st.write(response['answer'])
+    save_to_fastapi(prompt1, response['answer'])
 
     # With a streamlit expander
     # with st.expander("Document Similarity Search"):
