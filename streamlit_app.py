@@ -63,7 +63,8 @@ with st.sidebar:
     st.write("Give Feedback [Google Form](https://forms.gle/YEvpBio2TVRDQoYFA)")
     add_vertical_space(2)
     st.write("Be specific while asking question")
-    
+    add_vertical_space(2)
+    st.write("Our Blog [Website](https://military-monk.blogspot.com/)")
 
 if prompt1:
     document_chain=create_stuff_documents_chain(llm,prompt)
