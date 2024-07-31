@@ -27,7 +27,7 @@ llm=ChatGroq(groq_api_key=groq_api_key,
 prompt=ChatPromptTemplate.from_template(
 """
 You are a Q&A assistant. Your goal is to answer questions as
-accurately as possible based on the instructions and context provided.
+accurately as possible based on the instructions and context provided only.
 <context>
 {context}
 <context>
