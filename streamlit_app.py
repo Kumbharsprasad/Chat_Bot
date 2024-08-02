@@ -39,18 +39,13 @@ Questions: {input}
 def load_embeddings():
     if "vectors" not in st.session_state:
         if os.path.exists("vectors.pkl"):
-            with open("vectors.pkl", "rb") as f:
-                st.session_state.vectors = pickle.load(f)
-        else:
-            st.session_state.embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
-            st.session_state.loader = PyPDFDirectoryLoader("./text_shoot")  # Data Ingestion
-            st.session_state.docs = st.session_state.loader.load()  # Document Loading
-            st.session_state.text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)  # Chunk Creation
-            st.session_state.final_documents = st.session_state.text_splitter.split_documents(st.session_state.docs[:20])  # Splitting
-            st.session_state.vectors = FAISS.from_documents(st.session_state.final_documents, st.session_state.embeddings)  # Vector embeddings
-            with open("vectors.pkl", "wb") as f:
-                pickle.dump(st.session_state.vectors, f)
-
+            try:
+                with open("vectors.pkl", "rb") as f:
+                    st.session_state.vectors = pickle.load(f)
+                st.success("Loaded vectors from pickle file.")
+            except pickle.UnpicklingError:
+                st.error("Failed to load vectors from pickle file. Please check the file format and content.")
+                st.stop()  # Stop execution if loading fails
 
 
 load_embeddings()
