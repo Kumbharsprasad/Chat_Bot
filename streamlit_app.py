@@ -43,10 +43,12 @@ def load_embeddings():
                 with open("vectors.pkl", "rb") as f:
                     st.session_state.vectors = pickle.load(f)
                 st.success("Loaded vectors from pickle file.")
-            except pickle.UnpicklingError:
-                st.error("Failed to load vectors from pickle file. Please check the file format and content.")
+            except pickle.UnpicklingError as e:
+                st.error(f"Failed to load vectors from pickle file: {e}")
                 st.stop()  # Stop execution if loading fails
-
+            except Exception as e:
+                st.error(f"An unexpected error occurred: {e}")
+                st.stop()  # Stop execution if loading fails
 
 load_embeddings()
 prompt1=st.chat_input("Enter Your Question")
