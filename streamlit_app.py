@@ -12,7 +12,6 @@ from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from dotenv import load_dotenv
 from streamlit_extras.add_vertical_space import add_vertical_space
 import os
-import pickle
 load_dotenv()
 
 ## load the GROQ And OpenAI API KEY 
@@ -36,21 +35,18 @@ Questions: {input}
 """
 )
 
-def load_embeddings():
-    if "vectors" not in st.session_state:
-        if os.path.exists("vectors.pkl"):
-            try:
-                with open("vectors.pkl", "rb") as f:
-                    st.session_state.vectors = pickle.load(f)
-                st.success("Loaded vectors from pickle file.")
-            except pickle.UnpicklingError as e:
-                st.error(f"Failed to load vectors from pickle file: {e}")
-                st.stop()  # Stop execution if loading fails
-            except Exception as e:
-                st.error(f"An unexpected error occurred: {e}")
-                st.stop()  # Stop execution if loading fails
+def vector_embedding():
 
-load_embeddings()
+    if "vectors" not in st.session_state:
+
+        st.session_state.embeddings=GoogleGenerativeAIEmbeddings(model = "models/embedding-001")
+        st.session_state.loader=PyPDFDirectoryLoader("./text_shoot") ## Data Ingestion
+        st.session_state.docs=st.session_state.loader.load() ## Document Loading
+        st.session_state.text_splitter=RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=200) ## Chunk Creation
+        st.session_state.final_documents=st.session_state.text_splitter.split_documents(st.session_state.docs[:20]) #splitting
+        st.session_state.vectors=FAISS.from_documents(st.session_state.final_documents,st.session_state.embeddings) #vector OpenAI embeddings
+
+
 prompt1=st.chat_input("Enter Your Question")
 
 
@@ -74,7 +70,7 @@ with st.sidebar:
 
                 
 if prompt1:
-    # vector_embedding()
+    vector_embedding()
     document_chain=create_stuff_documents_chain(llm,prompt)
     retriever=st.session_state.vectors.as_retriever()
     retrieval_chain=create_retrieval_chain(retriever,document_chain)
