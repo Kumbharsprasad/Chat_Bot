@@ -47,7 +47,7 @@ def vector_embedding():
         st.session_state.vectors=FAISS.from_documents(st.session_state.final_documents,st.session_state.embeddings) #vector OpenAI embeddings
 
 
-prompt1=st.chat_input("Enter Your Question")
+prompt1=st.chat_message("Enter Your Question")
 
 
 # if st.button("Tap to talk with Bot"):
